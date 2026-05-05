@@ -22,12 +22,12 @@ cd WaifuX
 ./scripts/run-linux.sh
 ```
 
-也可以直接进入应用目录：
+也可以手动构建 Qt/QML 应用：
 
 ```bash
-cd linux
-npm install
-npm start
+cmake -S linux -B build/linux-qt
+cmake --build build/linux-qt --parallel
+./build/linux-qt/waifux-linux
 ```
 
 ## 打包验证
@@ -40,8 +40,8 @@ npm start
 
 ## 代码风格
 
-- 保持改动聚焦，优先沿用现有 Electron/Node 实现方式。
-- 不提交 `node_modules/`、`dist/` 或本地配置。
+- 保持改动聚焦，优先沿用现有 Qt/C++/QML 实现方式。
+- 不提交 `build/`、`dist/` 或本地配置。
 - 改动依赖检查、下载、壁纸设置逻辑时，请补充实际桌面环境下的验证说明。
 - UI 文案默认使用简体中文。
 

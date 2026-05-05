@@ -1,47 +1,55 @@
-# WaifuX Linux
+# WaifuX Linux Qt/QML
 
-This directory contains the Electron Linux desktop app for WaifuX. It opens in
-its own application window and uses a local Node.js API server for data sources,
-downloads, settings, and wallpaper actions.
+This directory contains the Linux-only Qt 6 / QML rewrite of WaifuX. The app no
+longer uses Electron, Node frontend runtime, HTML, CSS, Tailwind, or a WebView.
 
 ## Features
 
-- Original-style WaifuX shell: home, wallpaper explore, anime explore,
-  media/dynamic wallpaper, library, detail sheets, and settings.
-- Wallhaven search plus 4KWallpapers fallback.
-- MotionBGs media feed and download parsing.
-- Bangumi anime trending/search/detail, with a video-source extraction helper.
-- Steam Workshop browse/detail; downloads use the user's own Linux SteamCMD.
-- Static wallpaper application through common Linux desktop tools.
-- Dynamic wallpaper dependency checks for `mpvpaper` or X11 `mpv` + `xwinwrap`.
+- Qt Quick/QML interface with virtualized `GridView` and `ListView` pages.
+- Wallhaven and 4KWallpapers wallpaper search, download, and Linux wallpaper application.
+- MotionBGs media browsing and video download.
+- Steam Workshop browsing and SteamCMD download.
+- Bangumi anime trending/search.
+- Local wallpaper, media, and Workshop library scanning.
+- Static wallpaper support through common Linux desktop tools.
+- Dynamic wallpaper support through deepin/DDE native video wallpaper, mpvpaper,
+  or X11 xwinwrap + mpv.
+- Dependency detection with a generated local install helper script.
+- Existing settings remain compatible with:
 
-Downloads are stored under the user's Pictures directory:
+```text
+~/.local/share/WaifuX/linux-state.json
+```
+
+Downloads are stored under:
 
 ```text
 ~/Pictures/WaifuX
 ```
 
-The app uses `xdg-user-dir PICTURES` when available, so localized systems use
-the configured pictures directory. State is stored in `~/.local/share/WaifuX`.
-
 ## Requirements
 
-- Node.js 20+
-- npm
-- Static wallpaper support:
-  - Deepin/GNOME/Cinnamon/MATE: `gsettings`
-  - KDE Plasma: `plasma-apply-wallpaperimage`
-  - XFCE: `xfconf-query`
-  - Sway/Wayland: `swaymsg` or `swww`
-  - X11 fallback: `feh`
-- Recommended for dynamic video wallpapers: `ffmpeg`, `mpv`, and either
-  `mpvpaper` or X11 `xwinwrap`.
-- On deepin/DDE X11, WaifuX prefers the native DDE video wallpaper plugin.
-  The plugin also needs the `libmpv.so` compatibility link, usually provided
-  by the `libmpv-dev` package.
-- Optional Steam Workshop download: a user-configured Linux SteamCMD path.
-- Optional Wallpaper Engine Scene/Web: a user-configured `linux-wallpaperengine`
-  or compatible renderer path.
+- CMake
+- g++
+- Qt 6 base development files
+- Qt 6 declarative/QML development files
+- Qt Quick runtime modules
+
+On deepin/Debian-like systems:
+
+```bash
+sudo apt-get install -y cmake g++ qt6-base-dev qt6-declarative-dev \
+  qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtquick-layouts \
+  qml6-module-qtquick-window qml6-module-qtquick-dialogs
+```
+
+Optional runtime tools:
+
+- Static wallpaper: `gsettings`, `plasma-apply-wallpaperimage`, `xfconf-query`,
+  `swww`, or `feh`.
+- Dynamic wallpaper: deepin/DDE native video wallpaper plugin, `mpvpaper`, or
+  X11 `mpv` + `xwinwrap`.
+- Steam Workshop: Linux `steamcmd`.
 
 ## Run
 
@@ -51,23 +59,17 @@ From the repository root:
 ./scripts/run-linux.sh
 ```
 
-Or directly:
+Manual build:
 
 ```bash
-cd linux
-npm install
-npm start
-```
-
-For API-only debugging:
-
-```bash
-node linux/waifux-linux.js --port 40900
+cmake -S linux -B build/linux-qt
+cmake --build build/linux-qt --parallel
+./build/linux-qt/waifux-linux
 ```
 
 ## Package
 
-Build an installable Electron Debian package from the repository root:
+Build a Debian package and release bundle:
 
 ```bash
 ./scripts/package-linux.sh
@@ -81,22 +83,6 @@ dist/waifux-linux-<version>-amd64/
 dist/waifux-linux-<version>-amd64.tar.gz
 ```
 
-Share the `.tar.gz` bundle with other users. They can extract it and run:
-
-```bash
-./install.sh
-```
-
-Manual app install:
-
-```bash
-sudo apt install ./dist/waifux-linux_<version>_amd64.deb
-```
-
-On deepin/DDE X11, native video wallpaper under desktop icons also needs the
-`waifux-dde-video-wallpaper-plugin_<plugin-version>_amd64.deb` package from
-the release bundle.
-
-After installation, launch `WaifuX` from the application menu or run
-`waifux-linux` from a terminal. It opens its own app window, not an external
-browser tab.
+On deepin/DDE X11, native video wallpaper under desktop icons still needs the
+`waifux-dde-video-wallpaper-plugin_<plugin-version>_amd64.deb` package from the
+release bundle.

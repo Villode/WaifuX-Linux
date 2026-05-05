@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=WaifuX
+Comment=ACG wallpaper, media and live wallpaper tool
+Exec=waifux-linux
+Icon=waifux-linux
+Terminal=false
+Categories=Graphics;

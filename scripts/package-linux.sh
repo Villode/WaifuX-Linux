@@ -2,51 +2,42 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-LINUX_DIR="$ROOT/linux"
+BUILD_DIR="$ROOT/build/linux-qt"
 OUT_DIR="$ROOT/dist"
-ICON_SOURCE="$LINUX_DIR/icon.png"
-VERSION="$(node -p "require('$LINUX_DIR/package.json').version")"
-DDE_PLUGIN_VERSION="$(node -p "require('fs').readFileSync('$LINUX_DIR/waifux-linux.js', 'utf8').match(/DDE_VIDEO_PLUGIN_MIN_VERSION = '([^']+)'/)[1]")"
+VERSION="$(sed -nE 's/^project\(WaifuXLinux VERSION ([^ )]+).*/\1/p' "$ROOT/linux/CMakeLists.txt" | head -n1)"
+DDE_PLUGIN_VERSION="$(sed -nE 's/^constexpr auto DdePluginMinVersion = "([^"]+)";/\1/p' "$ROOT/linux/src/AppController.cpp" | head -n1)"
 FINAL_DEB="$OUT_DIR/waifux-linux_${VERSION}_amd64.deb"
 DDE_PLUGIN_DEB="$HOME/.cache/WaifuX/build/dde-file-manager-extensions/build/waifux-dde-video-wallpaper-plugin_${DDE_PLUGIN_VERSION}_amd64.deb"
 RELEASE_DIR="$OUT_DIR/waifux-linux-${VERSION}-amd64"
 BUNDLE_TAR="$OUT_DIR/waifux-linux-${VERSION}-amd64.tar.gz"
 
-if ! command -v node >/dev/null 2>&1; then
-  echo "缺少 Node.js，无法构建 Electron 应用。" >&2
+if [[ -z "$VERSION" || -z "$DDE_PLUGIN_VERSION" ]]; then
+  echo "无法读取 WaifuX 或 DDE 插件版本号。" >&2
   exit 1
 fi
 
-NODE_MAJOR="$(node -p "Number(process.versions.node.split('.')[0])" 2>/dev/null || echo 0)"
-if [[ "$NODE_MAJOR" -lt 20 ]]; then
-  echo "构建需要 Node.js 20+，当前版本是 $(node --version)。" >&2
+if ! command -v cmake >/dev/null 2>&1; then
+  echo "缺少 CMake，无法构建 WaifuX Qt/QML。" >&2
   exit 1
 fi
 
-if ! command -v npm >/dev/null 2>&1; then
-  echo "缺少 npm，无法安装 Electron 打包依赖。" >&2
+if ! command -v g++ >/dev/null 2>&1; then
+  echo "缺少 g++，无法构建 WaifuX Qt/QML。" >&2
   exit 1
 fi
 
-if [[ ! -f "$ICON_SOURCE" ]]; then
-  echo "缺少应用图标：$ICON_SOURCE" >&2
+if [[ ! -d /usr/include/x86_64-linux-gnu/qt6/QtQml || ! -d /usr/include/x86_64-linux-gnu/qt6/QtQuick ]]; then
+  echo "缺少 Qt QML/Quick 开发包。请先安装：sudo apt-get install -y qt6-declarative-dev" >&2
   exit 1
 fi
 
 mkdir -p "$OUT_DIR"
-
-pushd "$LINUX_DIR" >/dev/null
-if [[ -f package-lock.json ]]; then
-  npm ci
-else
-  npm install
-fi
-npm run dist:deb
-popd >/dev/null
+cmake -S "$ROOT/linux" -B "$BUILD_DIR" -DCMAKE_BUILD_TYPE=Release
+cmake --build "$BUILD_DIR" --parallel
+cmake --build "$BUILD_DIR" --target package
 
 rm -f "$OUT_DIR"/waifux-linux_*.deb "$OUT_DIR"/waifux-linux-*.deb
-cp "$OUT_DIR/electron/waifux-linux-${VERSION}-amd64.deb" "$FINAL_DEB"
-
+cp "$BUILD_DIR/waifux-linux_${VERSION}_amd64.deb" "$FINAL_DEB"
 echo "已生成桌面应用安装包：$FINAL_DEB"
 
 rm -rf "$RELEASE_DIR" "$BUNDLE_TAR"
@@ -57,7 +48,7 @@ if [[ -f "$DDE_PLUGIN_DEB" ]]; then
   cp "$DDE_PLUGIN_DEB" "$RELEASE_DIR/"
 else
   echo "未找到 deepin/DDE 动态壁纸插件包：$DDE_PLUGIN_DEB" >&2
-  echo "deepin 用户仍可在 WaifuX 设置页点击自动安装动态壁纸依赖来编译插件。" >&2
+  echo "deepin 用户仍可按文档安装/构建 WaifuX DDE 视频壁纸插件。" >&2
 fi
 
 cat > "$RELEASE_DIR/install.sh" <<EOF
@@ -81,11 +72,11 @@ EOF
 chmod +x "$RELEASE_DIR/install.sh"
 
 cat > "$RELEASE_DIR/README.txt" <<EOF
-WaifuX Linux ${VERSION}
+WaifuX Linux Qt/QML ${VERSION}
 
 包含文件：
 - waifux-linux_${VERSION}_amd64.deb
-  WaifuX Linux 主程序。
+  WaifuX Linux Qt/QML 主程序。
 - waifux-dde-video-wallpaper-plugin_${DDE_PLUGIN_VERSION}_amd64.deb
   deepin/DDE X11 原生视频壁纸插件补丁包。只有 deepin/DDE 用户需要。
 - install.sh
@@ -96,17 +87,9 @@ WaifuX Linux ${VERSION}
   cd waifux-linux-${VERSION}-amd64
   ./install.sh
 
-手动安装：
-  sudo apt-get install -y ./waifux-linux_${VERSION}_amd64.deb
-
-deepin/DDE 动态壁纸还需要：
-  sudo apt-get install -y ./waifux-dde-video-wallpaper-plugin_${DDE_PLUGIN_VERSION}_amd64.deb
-  systemctl --user restart dde-shell-plugin@org.deepin.ds.desktop.service
-
 说明：
-- 普通静态壁纸、下载、资源库等功能只需要主程序。
-- deepin/DDE 上要让视频壁纸位于桌面图标后方，需要安装插件包。
-- 其他桌面环境不需要安装 deepin 插件，可在 WaifuX 设置页检查动态壁纸依赖。
+- 本版本不包含 Electron、Node 前端、HTML 或 CSS UI。
+- UI 使用 Qt Quick/QML；网络、下载、壁纸和动态壁纸逻辑由 C++/Qt 实现。
 EOF
 
 (cd "$RELEASE_DIR" && sha256sum *.deb install.sh README.txt > SHA256SUMS)

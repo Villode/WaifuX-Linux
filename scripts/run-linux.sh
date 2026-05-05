@@ -2,34 +2,23 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-LINUX_DIR="$ROOT/linux"
+BUILD_DIR="$ROOT/build/linux-qt"
 
-if ! command -v node >/dev/null 2>&1; then
-  echo "缺少 Node.js，无法启动 WaifuX Linux。" >&2
+if ! command -v cmake >/dev/null 2>&1; then
+  echo "缺少 CMake，无法构建 WaifuX Qt/QML。" >&2
   exit 1
 fi
 
-NODE_MAJOR="$(node -p "Number(process.versions.node.split('.')[0])" 2>/dev/null || echo 0)"
-if [[ "$NODE_MAJOR" -lt 20 ]]; then
-  echo "WaifuX Linux 需要 Node.js 20+，当前版本是 $(node --version)。" >&2
+if ! command -v g++ >/dev/null 2>&1; then
+  echo "缺少 g++，无法构建 WaifuX Qt/QML。" >&2
   exit 1
 fi
 
-if ! command -v npm >/dev/null 2>&1; then
-  echo "缺少 npm，无法启动 Electron 桌面应用。" >&2
+if [[ ! -d /usr/include/x86_64-linux-gnu/qt6/QtQml || ! -d /usr/include/x86_64-linux-gnu/qt6/QtQuick ]]; then
+  echo "缺少 Qt QML/Quick 开发包。请先安装：sudo apt-get install -y qt6-declarative-dev" >&2
   exit 1
 fi
 
-if [[ ! -d "$LINUX_DIR/node_modules" ]]; then
-  pushd "$LINUX_DIR" >/dev/null
-  if [[ -f package-lock.json ]]; then
-    npm ci
-  else
-    npm install
-  fi
-  popd >/dev/null
-fi
-
-pushd "$LINUX_DIR" >/dev/null
-unset ELECTRON_RUN_AS_NODE
-exec npm start -- "$@"
+cmake -S "$ROOT/linux" -B "$BUILD_DIR"
+cmake --build "$BUILD_DIR" --parallel
+exec "$BUILD_DIR/waifux-linux" "$@"

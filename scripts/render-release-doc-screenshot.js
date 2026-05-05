@@ -6,10 +6,10 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 
 const ROOT = path.join(__dirname, '..');
-const VERSION = require(path.join(ROOT, 'linux', 'package.json')).version;
-const SERVER_PATH = path.join(ROOT, 'linux', 'waifux-linux.js');
-const SERVER_SOURCE = fs.readFileSync(SERVER_PATH, 'utf8');
-const PLUGIN_VERSION = SERVER_SOURCE.match(/DDE_VIDEO_PLUGIN_MIN_VERSION = '([^']+)'/)?.[1] || '1.0.11';
+const CMAKE_SOURCE = fs.readFileSync(path.join(ROOT, 'linux', 'CMakeLists.txt'), 'utf8');
+const APP_CONTROLLER_SOURCE = fs.readFileSync(path.join(ROOT, 'linux', 'src', 'AppController.cpp'), 'utf8');
+const VERSION = CMAKE_SOURCE.match(/project\(WaifuXLinux VERSION ([^) ]+)/)?.[1] || '38.0.94';
+const PLUGIN_VERSION = APP_CONTROLLER_SOURCE.match(/DdePluginMinVersion = "([^"]+)"/)?.[1] || '1.0.11';
 const OUT_DIR = path.join(ROOT, 'docs', 'screenshots');
 const OUT_SVG = path.join(OUT_DIR, `waifux-linux-${VERSION}-install-guide.svg`);
 const OUT_PNG = path.join(OUT_DIR, `waifux-linux-${VERSION}-install-guide.png`);
@@ -132,10 +132,10 @@ y = 1322;
 rect(88, y, 1104, 188, 'rgba(255,255,255,.78)');
 text(120, y + 52, '本版修复', 32, 800);
 const fixes = [
-  '移除 macOS 路径，只保留 Linux 版本。',
-  'DDE 动态壁纸使用原生插件，不抽帧，不像 PPT。',
-  '修复任务栏窗口、视频黑屏和顶部 40px 黑边问题。',
-  '屏幕尺寸动态读取，支持非 1920x1080 显示器。',
+  'Qt/QML 原生桌面界面，不再使用 Electron/HTML/CSS。',
+  '保留 Linux-only 路径和 deepin/DDE 原生视频壁纸方案。',
+  '媒体页 MotionBGs / Workshop / 本地在同一页面切换。',
+  '本地设置继续兼容 ~/.local/share/WaifuX/linux-state.json。',
 ];
 fixes.forEach((item, index) => text(136, y + 84 + index * 27, `• ${item}`, 20, 400, '#243437'));
 
