@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1600" viewBox="0 0 1280 1600">
+<defs>
+<linearGradient id="bg" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#fffaf1" offset="0"/><stop stop-color="#f6f7f3" offset=".52"/><stop stop-color="#eef4f6" offset="1"/></linearGradient>
+<linearGradient id="soft" x1="0" x2="1" y1="0" y2="0"><stop stop-color="#1b5e60" stop-opacity=".12" offset="0"/><stop stop-color="#1b5e60" stop-opacity="0" offset=".42"/></linearGradient>
+</defs>
+<rect x="0" y="0" width="1280" height="1600" rx="0" fill="url(#bg)" stroke="none" stroke-width="0"/>
+<rect x="0" y="0" width="1280" height="1600" rx="0" fill="url(#soft)" stroke="none" stroke-width="0"/>
+<text x="88" y="132" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="72" font-weight="800" fill="#171717">WaifuX Linux</text>
+<text x="88" y="216" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="72" font-weight="800" fill="#171717">38.0.94</text>
+<text x="88" y="270" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="27" font-weight="500" fill="#33585f">发布包安装说明 / deepin DDE 动态壁纸补丁</text>
+<rect x="964" y="96" width="228" height="142" rx="0" fill="#dff2ee" stroke="#171717" stroke-width="3"/>
+<text x="995" y="154" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="35" font-weight="800" fill="#171717">Linux Only</text>
+<text x="985" y="196" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="16" font-weight="500" fill="#3d4d50">amd64 Debian package</text>
+<line x1="88" y1="322" x2="1192" y2="322" stroke="#171717" stroke-width="4"/>
+<rect x="88" y="376" width="1104" height="238" rx="0" fill="rgba(255,255,255,.78)" stroke="#171717" stroke-width="3"/>
+<text x="120" y="428" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="32" font-weight="800" fill="#171717">推荐安装</text>
+<text x="120" y="468" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="23" font-weight="400" fill="#243437">下载 GitHub Release 中的压缩包，解压后执行安装脚本：</text>
+<rect x="120" y="502" width="1012" height="136" rx="0" fill="#101820" stroke="#101820" stroke-width="0"/>
+<rect x="120" y="502" width="10" height="136" rx="0" fill="#f2b84b" stroke="#f2b84b" stroke-width="0"/>
+<text x="148" y="542" font-family="DejaVu Sans Mono, monospace" font-size="19" font-weight="400" fill="#edf7f6">tar -xzf waifux-linux-38.0.94-amd64.tar.gz</text>
+<text x="148" y="576" font-family="DejaVu Sans Mono, monospace" font-size="19" font-weight="400" fill="#edf7f6">cd waifux-linux-38.0.94-amd64</text>
+<text x="148" y="610" font-family="DejaVu Sans Mono, monospace" font-size="19" font-weight="400" fill="#edf7f6">./install.sh</text>
+<rect x="88" y="652" width="532" height="372" rx="0" fill="rgba(255,255,255,.78)" stroke="#171717" stroke-width="3"/>
+<text x="120" y="704" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="32" font-weight="800" fill="#171717">包含文件</text>
+<rect x="120" y="744" width="468" height="58" rx="0" fill="#f9fbf8" stroke="#243437" stroke-width="2"/>
+<text x="138" y="769" font-family="DejaVu Sans Mono, Source Han Sans SC, monospace" font-size="13" font-weight="800" fill="#171717">waifux-linux_38.0.94_amd64.deb</text>
+<text x="138" y="792" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="17" font-weight="400" fill="#455">WaifuX Linux 主程序</text>
+<rect x="120" y="814" width="468" height="58" rx="0" fill="#f9fbf8" stroke="#243437" stroke-width="2"/>
+<text x="138" y="839" font-family="DejaVu Sans Mono, Source Han Sans SC, monospace" font-size="13" font-weight="800" fill="#171717">waifux-dde-video-wallpaper-plugin_1.0.11_amd64.deb</text>
+<text x="138" y="862" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="17" font-weight="400" fill="#455">deepin/DDE 原生视频壁纸插件</text>
+<rect x="120" y="884" width="468" height="58" rx="0" fill="#f9fbf8" stroke="#243437" stroke-width="2"/>
+<text x="138" y="909" font-family="DejaVu Sans Mono, Source Han Sans SC, monospace" font-size="13" font-weight="800" fill="#171717">install.sh</text>
+<text x="138" y="932" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="17" font-weight="400" fill="#455">自动安装主程序，并在 DDE 环境安装插件</text>
+<rect x="120" y="954" width="468" height="58" rx="0" fill="#f9fbf8" stroke="#243437" stroke-width="2"/>
+<text x="138" y="979" font-family="DejaVu Sans Mono, Source Han Sans SC, monospace" font-size="13" font-weight="800" fill="#171717">SHA256SUMS</text>
+<text x="138" y="1002" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="17" font-weight="400" fill="#455">发布文件校验信息</text>
+<rect x="660" y="652" width="532" height="372" rx="0" fill="#fff2c7" stroke="#171717" stroke-width="3"/>
+<text x="692" y="704" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="32" font-weight="800" fill="#171717">deepin/DDE 动态壁纸</text>
+<text x="692" y="752" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="24" font-weight="400" fill="#243437">deepin/DDE X11 用户需要插件包，视频</text>
+<text x="692" y="794" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="24" font-weight="400" fill="#243437">才能在桌面图标后方播放。安装脚本会自动</text>
+<text x="692" y="836" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="24" font-weight="400" fill="#243437">检测并重启 DDE 桌面插件。</text>
+<rect x="88" y="1060" width="1104" height="252" rx="0" fill="rgba(255,255,255,.78)" stroke="#171717" stroke-width="3"/>
+<text x="120" y="1112" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="32" font-weight="800" fill="#171717">手动安装 deepin/DDE 插件</text>
+<rect x="120" y="1146" width="1012" height="136" rx="0" fill="#101820" stroke="#101820" stroke-width="0"/>
+<rect x="120" y="1146" width="10" height="136" rx="0" fill="#f2b84b" stroke="#f2b84b" stroke-width="0"/>
+<text x="148" y="1186" font-family="DejaVu Sans Mono, monospace" font-size="19" font-weight="400" fill="#edf7f6">sudo apt-get install -y ./waifux-linux_38.0.94_amd64.deb</text>
+<text x="148" y="1220" font-family="DejaVu Sans Mono, monospace" font-size="19" font-weight="400" fill="#edf7f6">sudo apt-get install -y ./waifux-dde-video-wallpaper-plugin_1.0.11_amd64.deb</text>
+<text x="148" y="1254" font-family="DejaVu Sans Mono, monospace" font-size="19" font-weight="400" fill="#edf7f6">systemctl --user restart dde-shell-plugin@org.deepin.ds.desktop.service</text>
+<rect x="88" y="1322" width="1104" height="188" rx="0" fill="rgba(255,255,255,.78)" stroke="#171717" stroke-width="3"/>
+<text x="120" y="1374" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="32" font-weight="800" fill="#171717">本版修复</text>
+<text x="136" y="1406" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="20" font-weight="400" fill="#243437">• 移除 macOS 路径，只保留 Linux 版本。</text>
+<text x="136" y="1433" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="20" font-weight="400" fill="#243437">• DDE 动态壁纸使用原生插件，不抽帧，不像 PPT。</text>
+<text x="136" y="1460" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="20" font-weight="400" fill="#243437">• 修复任务栏窗口、视频黑屏和顶部 40px 黑边问题。</text>
+<text x="136" y="1487" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="20" font-weight="400" fill="#243437">• 屏幕尺寸动态读取，支持非 1920x1080 显示器。</text>
+<text x="88" y="1558" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="18" font-weight="400" fill="#526064">GitHub: Villode/WaifuX-Linux</text>
+<text x="780" y="1558" font-family="Source Han Sans SC, Noto Sans CJK SC, Arial, sans-serif" font-size="16" font-weight="400" fill="#526064">Generated by scripts/render-release-doc-screenshot.js</text>
+</svg>

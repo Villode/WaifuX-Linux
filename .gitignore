@@ -1,93 +1,35 @@
-# Xcode
-*.xcuserstate
-*.xcworkspace
-xcuserdata/
-build/
-# 仅忽略 xcodeproj 内除 pbxproj / 共享 Scheme 外的内容（否则克隆后无 Scheme，Cmd+R 无法 Run）
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-!*.xcodeproj/xcshareddata/
-!*.xcodeproj/xcshareddata/xcschemes/
-!*.xcodeproj/xcshareddata/xcschemes/*.xcscheme
-
-# macOS
+# OS / editor
 .DS_Store
 *.log
-.AppleDouble
-.LSOverride
-
-# Swift Package Manager
-Packages/
-.swiftpm/
-
-# CocoaPods
-Pods/
-
-# App
-*.app
-*.dSYM
-
-# Cache directories
-.derivedData/
-.WallHavenCache/
-.WallHavenImageCache/
-
-# Editor / AI 助手说明（仅本地，不提交、不推送；pre-commit 亦禁止 -f 强加）
-AGENTS.md
-CLAUDE.md
-# 其他常见 AI 编辑器说明（若放在仓库根目录）
-GEMINI.md
-.cursorrules
-COPILOT.md
-
-# Cursor 本地规则与索引（勿入库）
-.cursor/
-
-# Editor
-.1code/
-.claude/
-.vscode/
-.workbuddy/
+*.tmp
 *.swp
 *~
-
-# Config (local only)
-LocalConfig.json
-*.local.json
-
-Docs/*.md
-WebWallpaperDemo/
-# Temp
-*.tmp
-.gstack/
-
-# Landing page build output (CI generates these)
-Docs/assets/
-Docs/index.html
-landing/dist/
-landing/node_modules/
-
-# Trae
+.vscode/
+.cursor/
+.claude/
+.workbuddy/
 .trae/
 
-# SteamCMD：随仓库提供 `Resources/steamcmd/`（见该目录 README），以便克隆/CI 可打包；勿将用户 Application Support 下的自更新缓存提交进来。
-/steamcmd/
-Resources/steamcmd/logs/
-Resources/steamcmd/package/
-Resources/steamcmd/public/
-# 注意：Breakpad.framework 和 *.dylib 是 steamcmd 运行时依赖，需要保留在仓库
+# Local assistant/project notes
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+COPILOT.md
+.cursorrules
 
-# Wallpaper Engine：材质包不提交（构建时嵌入 CLI；本地保留或 CI 用 WAIFUX_WE_ASSETS_PACK_URL 拉取）
-Resources/assets/
-
-# Wallpaper Engine Renderer - now open-source
-# wallpaperengine-cli.swift
-# Resources/wallpaperengine-cli
-# Resources/liblinux-wallpaperengine-renderer.dylib
-# Resources/CRenderer/
-# Resources/RendererAPI.h
-
-# Node (root level) — playwright 临时测试，不提交
+# Node / Electron
 node_modules/
-package-lock.json
-package.json
+linux/node_modules/
+
+# Build output
+dist/
+build/
+*.AppImage
+*.deb
+*.rpm
+
+# Local config and caches
+*.local.json
+LocalConfig.json
+.cache/
+.tmp/
